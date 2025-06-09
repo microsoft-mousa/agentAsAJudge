@@ -6,29 +6,31 @@ This project evaluates the agentic quality of text samples using a multi-agent r
 ### Features Offered
 - **Multi-Agent Evaluation**: Includes discussion, criticism, and ranking agents to evaluate text samples.
 - **Customizable Prompts**: Prompts for agents can be tailored to specific evaluation needs.
-- **Scoring and Feedback**: Provides a score (1–5) and detailed feedback for each sample.
-- **JSONL Validation**: Ensures the input file is properly formatted before evaluation.
+- **Scoring and Feedback**: Provides a score (1–10) and detailed feedback for each sample.
 - **Azure Integration**: Utilizes Azure OpenAI services for model inference.
 
 ---
 
 ## Prerequisites
 1. **Python**: Ensure Python 3.8+ is installed.
-2. **Dependencies**: Install required Python packages using `pip install -r requirements.txt`.
+2. **Dependencies**: Install required Python packages using:
+   ```bash
+   pip install -r requirements.txt
+   ```
 3. **Azure Credentials**: Set up Azure credentials and environment variables:
    - `AZURE_DEPLOYMENT`
    - `MODEL_NAME`
    - `AZURE_ENDPOINT`
    - `API_TOKEN`
-4. **Input File**: Prepare a `.jsonl` file containing JSON objects (one per line).
+4. **Input File**: Prepare a `.jsonl` file containing JSON objects (one per line) that includes all the information needed by the evaluation model.
 
 ---
 
 ## How to Run
 1. **Clone the Repository**:
    ```bash
-   git clone <repository-url>
-   cd <repository-folder>
+   git clone https://github.com/microsoft-mousa/agentAsAJudge
+   cd agentAsAJudge
    ```
 
 2. **Set Up Environment Variables**:
@@ -40,13 +42,19 @@ This project evaluates the agentic quality of text samples using a multi-agent r
    API_TOKEN=<your-api-token>
    ```
 
-3. **Validate Input File**:
-   Ensure your `.jsonl` file is properly formatted. Run:
-   ```bash
-   python main.py <path-to-jsonl-file>
-   ```
+3. **Change System Prompts**:
+   To customize the system prompts:
+   - Create a new directory under `metrics` and add your prompt files (e.g., `.md` files).
+   - Update the initialization of the `AgentEvalPrompts` object in `main.py` with the paths to your new prompt files:
+     ```python
+     agent_eval_prompts = AgentEvalPrompts(
+         reviewer_prompt="<path-to-your-reviewer-prompt>",
+         critic_prompt="<path-to-your-critic-prompt>",
+         ranker_prompt="<path-to-your-ranker-prompt>"
+     )
+     ```
 
-4. **Run Evaluation**:
+4**Run Evaluation**:
    Execute the script:
    ```bash
    python main.py <path-to-jsonl-file>
@@ -68,7 +76,7 @@ This project evaluates the agentic quality of text samples using a multi-agent r
 
 2. **Evaluation**:
    For each sample, the output includes:
-   - **Score**: A numeric value (1–5).
+   - **Score**: A numeric value (1–10).
    - **Feedback**: Detailed reasoning for the score.
 
    Example:
